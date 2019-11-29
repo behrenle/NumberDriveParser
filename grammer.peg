@@ -2,7 +2,7 @@ Expression
   = Definition
 
 Definition
-  = left:Symbol _ ":=" _ right:Equation _ {
+  = left:(DefFunction / Symbol) _ ":=" _ right:Equation _ {
     return {
       type: "definition",
       elements: [left, right]
@@ -83,8 +83,23 @@ Power
   }
   / Function
 
+DefFunction
+  = _ name:Symbol "(" _ first:Symbol following:DefParam* ")" _ {
+    var node = {type: "function", name: name.value, elements: []};
+    if (first != null) {
+      node.elements.push(first);
+    }
+    for (var i = 0; i < following.length; i++) {
+      node.elements.push(following[i]);
+    }
+    return node;
+  }
+
+DefParam
+  = _ "," _ symbol:Symbol _ {return symbol;}
+
 Function
-  = name:Symbol "(" first:FirstParam following:FollowingParam* ")" _ {
+  = _ name:Symbol "(" first:FirstParam following:FollowingParam* ")" _ {
     var node = {type: "function", name: name.value, elements: []};
     if (first != null) {
       node.elements.push(first);
