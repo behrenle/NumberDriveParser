@@ -39,7 +39,7 @@ Product
     }
     return node;
   }
-  / Primary
+  / Power
 
 signedFactor
   = _ sign:("*" / "/") _ expr:Power _ {
@@ -56,14 +56,33 @@ unsignedFactor
   }
 
 Power
-  = base:Primary "^" exp:Primary {
+  = base:Function "^" exp:Function {
     return {
       type: "power",
       base: base,
       exp: exp
     };
   }
+  / Function
+
+Function
+  = name:Symbol "(" first:FirstParam following:FollowingParam* ")" {
+    var node = {type: "function", name: name.value, elements: []};
+    if (first != null) {
+      node.elements.push(first);
+    }
+    for (var i = 0; i < following.length; i++) {
+      node.elements.push(following[i]);
+    }
+    return node;
+  }
   / Primary
+
+FirstParam
+  = _ expr:Expression _ {return expr;}
+
+FollowingParam
+  = _ "," _ expr:Expression _ {return expr;}
 
 Primary
   = "(" _ expr:Expression _ ")" {return expr;}
