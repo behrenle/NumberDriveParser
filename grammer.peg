@@ -11,7 +11,7 @@ Definition
   / Equation
 
 Equation
-  = left:Sum "=" right:Sum _ {
+  = _ left:Sum _ "=" _ right:Sum _ {
     return {
       type: "equation",
       elements: [left, right]
