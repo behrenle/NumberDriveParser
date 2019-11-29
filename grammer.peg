@@ -1,0 +1,75 @@
+Expression
+  = Sum
+
+Sum
+  = unsigned:unsignedSummand? _ signed:signedSummand+ {
+  	var node = {type: "sum", elements: []};
+    if (unsigned != null) {
+      node.elements.push(unsigned);
+    }
+    for (var i = 0; i < signed.length; i++) {
+      node.elements.push(signed[i]);
+    }
+    return node;
+  }
+  / Product
+
+signedSummand
+  = _ sign:("+" / "-") _ expr:Product _ {
+    var nExpr = expr;
+    nExpr.sign = sign;
+    return nExpr;
+  }
+
+unsignedSummand
+  = _ expr:Product _ {
+    var nExpr = expr;
+    nExpr.sign = "+";
+    return nExpr;
+  }
+
+Product
+  = unsigned:unsignedFactor _ signed:signedFactor+ {
+    var node = {type: "product", elements: []};
+    if (unsigned != null) {
+      node.elements.push(unsigned);
+    }
+    for (var i = 0; i < signed.length; i++) {
+      node.elements.push(signed[i]);
+    }
+    return node;
+  }
+  / Primary
+
+signedFactor
+  = _ sign:("*" / "/") _ expr:Primary _ {
+    var nExpr = expr;
+    nExpr.mulSign = sign;
+    return nExpr;
+  }
+
+unsignedFactor
+  = _ expr:Primary _ {
+    var nExpr = expr;
+    nExpr.mulSign = "*";
+    return nExpr;
+  }
+
+Primary
+  = "(" _ expr:Expression _ ")" {return expr;}
+  / Number
+  / Symbol
+
+Number "integer"
+  = _ [0-9]+ ("." [0-9]*)?  {
+    return {
+      type: "number",
+      value: parseFloat(text(), 10)
+    };
+  }
+
+Symbol
+  = [a-zA-z_]+
+
+_ "whitespace"
+  = [ \t\n\r]*
