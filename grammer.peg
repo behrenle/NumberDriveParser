@@ -56,7 +56,7 @@ unsignedFactor
   }
 
 Power
-  = base:Function "^" exp:Function {
+  = base:Function "^" exp:Function _ {
     return {
       type: "power",
       base: base,
@@ -66,7 +66,7 @@ Power
   / Function
 
 Function
-  = name:Symbol "(" first:FirstParam following:FollowingParam* ")" {
+  = name:Symbol "(" first:FirstParam following:FollowingParam* ")" _ {
     var node = {type: "function", name: name.value, elements: []};
     if (first != null) {
       node.elements.push(first);
