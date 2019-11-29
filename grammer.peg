@@ -69,7 +69,12 @@ Number "integer"
   }
 
 Symbol
-  = [a-zA-z_]+
+  = [a-zA-z_]+ {
+    return {
+      type: "symbol",
+      value: text()
+    }
+  }
 
 _ "whitespace"
   = [ \t\n\r]*
