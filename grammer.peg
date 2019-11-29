@@ -1,5 +1,23 @@
 Expression
-  = List
+  = Definition
+
+Definition
+  = left:Symbol _ ":=" _ right:Equation _ {
+    return {
+      type: "definition",
+      elements: [left, right]
+    };
+  }
+  / Equation
+
+Equation
+  = left:List "=" right:List _ {
+    return {
+      type: "equation",
+      elements: [left, right]
+    };
+  }
+  / List
 
 List
   = _ "[" first:Expression following:ListFollowingElement* "]" _{
@@ -102,8 +120,8 @@ FollowingParam
 
 Primary
   = "(" _ expr:Expression _ ")" {return expr;}
-  / Number
-  / Symbol
+  / number:Number _ {return number;}
+  / symbol:Symbol _ {return symbol;}
 
 Number "integer"
   = _ [0-9]+ ("." [0-9]*)?  {
