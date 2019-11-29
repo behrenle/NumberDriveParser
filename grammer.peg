@@ -132,7 +132,7 @@ Number "integer"
   }
 
 Symbol
-  = ([abcdefghijklmnopqrstuvwxyz] / [ABCDEFGHIJKLMNOPQRSTUVWXYZ])+ ([abcdefghijklmnopqrstuvwxyz] / [ABCDEFGHIJKLMNOPQRSTUVWXYZ] / [0123456789_])* {
+  = [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]+ [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_]* {
     return {
       type: "symbol",
       value: text()
