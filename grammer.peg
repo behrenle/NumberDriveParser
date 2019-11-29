@@ -11,29 +11,13 @@ Definition
   / Equation
 
 Equation
-  = left:List "=" right:List _ {
+  = left:Sum "=" right:Sum _ {
     return {
       type: "equation",
       elements: [left, right]
     };
   }
-  / List
-
-List
-  = _ "[" first:Expression following:ListFollowingElement* "]" _{
-    var node = {type: "list", elements: []};
-    if (first != null) {
-      node.elements.push(first);
-    }
-    for (var i = 0; i < following.length; i++) {
-      node.elements.push(following[i]);
-    }
-    return node;
-  }
   / Sum
-
-ListFollowingElement
-  = _ "," _ expr:Expression _ {return expr;}
 
 Sum
   = unsigned:unsignedSummand? _ signed:signedSummand+ {
@@ -110,12 +94,28 @@ Function
     }
     return node;
   }
-  / Primary
+  / List
 
 FirstParam
   = _ expr:Expression _ {return expr;}
 
 FollowingParam
+  = _ "," _ expr:Expression _ {return expr;}
+
+List
+  = _ "[" first:Expression following:ListFollowingElement* "]" _{
+    var node = {type: "list", elements: []};
+    if (first != null) {
+      node.elements.push(first);
+    }
+    for (var i = 0; i < following.length; i++) {
+      node.elements.push(following[i]);
+    }
+    return node;
+  }
+  / Primary
+
+ListFollowingElement
   = _ "," _ expr:Expression _ {return expr;}
 
 Primary
@@ -132,7 +132,7 @@ Number "integer"
   }
 
 Symbol
-  = [a-zA-z_]+ {
+  = ([abcdefghijklmnopqrstuvwxyz] / [ABCDEFGHIJKLMNOPQRSTUVWXYZ])+ ([abcdefghijklmnopqrstuvwxyz] / [ABCDEFGHIJKLMNOPQRSTUVWXYZ] / [0123456789_])* {
     return {
       type: "symbol",
       value: text()
