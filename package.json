@@ -1,0 +1,10 @@
+{
+  "name": "@behrenle/number-drive-parser",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "2.0.1",
+  "main": "parser.js"
+}

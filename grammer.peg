@@ -20,13 +20,18 @@ Equation
   / Sum
 
 Sum
-  = unsigned:unsignedSummand? _ signed:signedSummand+ {
+  = first:unsignedSummand following:signedSummand+ {
   	var node = {type: "sum", elements: []};
-    if (unsigned != null) {
-      node.elements.push(unsigned);
+    node.elements.push(first);
+    for (var i = 0; i < following.length; i++) {
+      node.elements.push(following[i]);
     }
-    for (var i = 0; i < signed.length; i++) {
-      node.elements.push(signed[i]);
+    return node;
+  }
+  / following:signedSummand+ {
+    var node = {type: "sum", elements: []};
+    for (var i = 0; i < following.length; i++) {
+      node.elements.push(following[i]);
     }
     return node;
   }
@@ -47,31 +52,25 @@ unsignedSummand
   }
 
 Product
-  = signed:signedFactor+ {
+  = first:factor following:factor+ {
     var node = {type: "product", elements: []};
-    for (var i = 0; i < signed.length; i++) {
-      node.elements.push(signed[i]);
+    node.elements.push(first);
+    for (var i = 0; i < following.length; i++) {
+      node.elements.push(following[i]);
     }
     return node;
   }
   / Power
 
-signedFactor
+factor
   = _ sign:("*" / "/")? _ expr:Power _ {
     var nExpr = expr;
     nExpr.mulSign = sign == "/" ? "/" : "*";
     return nExpr;
   }
 
-unsignedFactor
-  = _ expr:Power _ {
-    var nExpr = expr;
-    nExpr.mulSign = "*";
-    return nExpr;
-  }
-
 Power
-  = base:Function "^" exp:Function _ {
+  = base:Function _ "^" _ exp:Function _ {
     return {
       type: "power",
       elements: [base, exp],
@@ -143,12 +142,15 @@ Number "integer"
   }
 
 Symbol
-  = [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]+ [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_]* {
+  = symbolChars+ (symbolChars / [0-9] / ".")* {
     return {
       type: "symbol",
       value: text()
     }
   }
+
+symbolChars
+= [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
 
 _ "whitespace"
   = [ \t\n\r]*
