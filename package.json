@@ -3,8 +3,15 @@
   "optionalDependencies": {},
   "readme": "ERROR: No README data found!",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pegjs -o parser.js grammer.pegjs"
   },
   "version": "2.0.1",
-  "main": "parser.js"
+  "main": "parser.js",
+  "dependencies": {
+    "pegjs": "^0.10.0"
+  },
+  "devDependencies": {
+    "pegjs": "^0.10.0"
+  }
 }
