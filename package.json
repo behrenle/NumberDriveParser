@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "pegjs -o parser.js grammer.pegjs"
   },
-  "version": "3.0.0",
+  "version": "3.0.1",
   "main": "parser.js",
   "dependencies": {},
   "devDependencies": {
