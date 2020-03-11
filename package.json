@@ -1,15 +1,24 @@
 {
   "name": "@behrenle/number-drive-parser",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pegjs -o parser.js grammer.pegjs"
-  },
   "version": "3.0.1",
+  "description": "Parser for math expressions",
   "main": "parser.js",
   "dependencies": {},
   "devDependencies": {
     "pegjs": "^0.10.0"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pegjs -o parser.js grammer.pegjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/behrenle/NumberDriveParser.git"
+  },
+  "author": "Lennard Behrens",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/behrenle/NumberDriveParser/issues"
+  },
+  "homepage": "https://github.com/behrenle/NumberDriveParser#readme"
 }
