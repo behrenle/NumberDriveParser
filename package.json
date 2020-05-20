@@ -1,6 +1,6 @@
 {
   "name": "@behrenle/number-drive-parser",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "description": "Parser for math expressions",
   "main": "parser.js",
   "dependencies": {},
