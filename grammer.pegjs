@@ -123,6 +123,9 @@ List
     }
     return node;
   }
+  / _ "[" _ "]" _ {
+    return {type: "list", elements: []};
+  }
   / Primary
 
 ListFollowingElement
